@@ -1,0 +1,6 @@
+module Pods_TaiyakiTV_tvOS_TaiyakiTV_tvOSTests {
+  umbrella header "Pods-TaiyakiTV-tvOS-TaiyakiTV-tvOSTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

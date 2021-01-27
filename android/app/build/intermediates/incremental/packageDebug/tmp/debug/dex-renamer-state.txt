@@ -1,0 +1,4 @@
+#Tue Jan 26 21:25:33 PST 2021
+base.0=/Users/michaelgarcia/Documents/GitHub/TaiyakiTV/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

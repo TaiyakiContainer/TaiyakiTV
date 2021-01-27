@@ -1,0 +1,7 @@
+module FlipperKit {
+  umbrella header "FlipperKit-iOS-umbrella.h"
+  exclude header "FlipperKit-tvOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
