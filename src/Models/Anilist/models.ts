@@ -11,3 +11,9 @@ export type AnilistMediaModel = {
   title: {romaji: string};
   id: number;
 };
+
+export type AnilistDetailModel = {
+  data: {
+    Media: AnilistMediaModel;
+  };
+};

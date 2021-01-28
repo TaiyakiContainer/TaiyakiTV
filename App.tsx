@@ -1,8 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import DiscoveryScreen from './src/Screens/DiscoveryScreen';
 import {AppProvider} from './src/Store/store';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import Navigator from './src/Components/Navigator';
 
 const App = () => {
   const client = new QueryClient();
@@ -10,7 +9,7 @@ const App = () => {
   return (
     <QueryClientProvider client={client}>
       <AppProvider>
-        <DiscoveryScreen />
+        <Navigator />
       </AppProvider>
     </QueryClientProvider>
   );

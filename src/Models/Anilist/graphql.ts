@@ -12,3 +12,22 @@ query {
     }
     }
 `;
+
+export const AnilistDetailGraphql = (id: number): string => `
+
+query {
+  Media(id: ${id}){
+    bannerImage
+    coverImage{extraLarge}
+    title{romaji}
+    id
+    episodes
+    nextAiringEpisode {
+      airingAt
+      episode
+    }
+    popularity
+    description
+  }
+}
+`;

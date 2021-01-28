@@ -17,8 +17,16 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 // @react-native-masked-view/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// react-native-gesture-handler
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-linear-gradient
 import com.BV.LinearGradient.LinearGradientPackage;
+// react-native-reanimated
+import com.swmansion.reanimated.ReanimatedPackage;
+// react-native-safe-area-context
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+// react-native-screens
+import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-tabbed-view-pager-android
 import is.uncommon.rn.widgets.TabbedViewPagerAndroidPackage;
 
@@ -69,7 +77,11 @@ public class PackageList {
       new AsyncStoragePackage(),
       new RNCViewPagerPackage(),
       new RNCMaskedViewPackage(),
+      new RNGestureHandlerPackage(),
       new LinearGradientPackage(),
+      new ReanimatedPackage(),
+      new SafeAreaContextPackage(),
+      new RNScreensPackage(),
       new TabbedViewPagerAndroidPackage()
     ));
   }

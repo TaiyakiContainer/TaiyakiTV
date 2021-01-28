@@ -1,8 +1,15 @@
 import {useQuery} from 'react-query';
-import {AnilistPagedGraphql} from '../Models/Anilist/graphql';
+import {
+  AnilistDetailGraphql,
+  AnilistPagedGraphql,
+} from '../Models/Anilist/graphql';
 import {AnilistKeys, AnilistSortingEnum} from '../Models/Anilist/types';
 
-export function useAnilistRequest<T>(key: AnilistKeys) {
+type Options = {
+  id: number;
+};
+
+export function useAnilistRequest<T>(key: AnilistKeys, options?: Options) {
   // eslint-disable-next-line no-undef
   const controller = new AbortController();
   const fetcher = () => {
@@ -10,6 +17,15 @@ export function useAnilistRequest<T>(key: AnilistKeys) {
     switch (key) {
       case 'Trending':
         grapqh = AnilistPagedGraphql(AnilistSortingEnum.TRENDING);
+        break;
+      case 'Popular':
+        grapqh = AnilistPagedGraphql(AnilistSortingEnum.POPULAR);
+        break;
+      case 'Detail':
+        if (!options?.id)
+          throw new Error('ID must not be null for Anilist Detail requests');
+        grapqh = AnilistDetailGraphql(options.id);
+        break;
     }
     return fetch('https://graphql.anilist.co', {
       method: 'POST',
@@ -20,9 +36,13 @@ export function useAnilistRequest<T>(key: AnilistKeys) {
     }).then((response) => response.json() as Promise<T>);
   };
 
-  const query = useQuery<T>(key, fetcher, {
-    staleTime: Infinity,
-  });
+  const query = useQuery<T>(
+    key !== 'Detail' ? key : options!.id.toString(),
+    fetcher,
+    {
+      staleTime: Infinity,
+    },
+  );
 
   return {
     query,

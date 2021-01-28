@@ -1,24 +1,66 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, {FC, memo} from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import {useAnilistRequest} from '../../Hooks/useAnilist';
+import {ListBlock} from '../../Components/ListBlock';
+import {AnilistMediaModel} from '../../Models/Anilist/models';
 
-export const DiscoveryTrendingRow = () => {
+interface Props {
+  title: string;
+  data: AnilistMediaModel[];
+  potentialCover: (arg0: string | undefined) => void;
+}
+
+const _DiscoveryTrendingRow: FC<Props> = (props) => {
+  const {data, title, potentialCover} = props;
+ const navigation = useNavigation();
+
+  const renderSections = ({item}: {item: AnilistMediaModel}) => {
+    //  if (section !== 0) return null;
+    return (
+      <ListBlock
+        data={{
+          title: item.title.romaji,
+          image: item.coverImage.extraLarge,
+          id: item.id,
+          bannerImage: item.bannerImage,
+        }}
+        onFocus={potentialCover}
+       onPress={() => navigation.navigate('Detail', {id: item.id})}
+      />
+    );
+  };
+
   return (
-    <View style={{flexDirection: 'column', height: 250}}>
-      <View style={{ height: 50}}>
-      <Text>Trending</Text>
+    <View>
+      <View>
+        <Text style={styles.discovery.sectionTitle}>{title}</Text>
+        <FlatList
+          style={{borderEndWidth: 1}}
+          horizontal
+          data={data}
+          renderItem={renderSections}
+          keyExtractor={(item) => item.id.toString()}
+        />
       </View>
-      <Text >Not Treding</Text>
     </View>
   );
 };
+export const DiscoveryTrendingRow = memo(
+  _DiscoveryTrendingRow,
+  (pp: Props, np: Props) => pp.data.length === np.data.length,
+);
 
 const styles = {
-  trending: StyleSheet.create({
-    title: {
+  discovery: StyleSheet.create({
+    pager: {
+      flex: 1,
+    },
+    sectionTitle: {
       fontWeight: 'bold',
-      fontSize: moderateScale(21, 0.2),
+      fontSize: moderateScale(21),
+      margin: 8,
+      color: 'white',
     },
   }),
 };
