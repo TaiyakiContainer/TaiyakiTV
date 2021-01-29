@@ -6,7 +6,7 @@ import DetailedScreen from '../Screens/Detailed/DetailedScreen';
 
 const Navigator = () => {
   const Stack = createStackNavigator();
-    
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -15,7 +15,16 @@ const Navigator = () => {
           component={DiscoveryScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={'Detail'} component={DetailedScreen} />
+        <Stack.Screen
+          name={'Detail'}
+          component={DetailedScreen}
+          options={{
+            title: 'Loading ...',
+            headerStyle: {backgroundColor: 'rgba(135, 53, 211, 0.32)'},
+            headerTitleStyle: {color: 'white'},
+            headerTintColor: 'white',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

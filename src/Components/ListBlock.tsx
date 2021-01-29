@@ -22,7 +22,6 @@ const _ListBlock: FC<Props> = (props) => {
 
   return (
     <TouchableHighlight
-      hasTVPreferredFocus
       underlayColor={'transparent'}
       onPress={props.onPress}
       onFocus={() => {

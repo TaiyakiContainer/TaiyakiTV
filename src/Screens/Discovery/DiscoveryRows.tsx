@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React, {FC, memo} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
@@ -13,7 +13,7 @@ interface Props {
 
 const _DiscoveryTrendingRow: FC<Props> = (props) => {
   const {data, title, potentialCover} = props;
- const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const renderSections = ({item}: {item: AnilistMediaModel}) => {
     //  if (section !== 0) return null;
@@ -26,7 +26,7 @@ const _DiscoveryTrendingRow: FC<Props> = (props) => {
           bannerImage: item.bannerImage,
         }}
         onFocus={potentialCover}
-       onPress={() => navigation.navigate('Detail', {id: item.id})}
+        onPress={() => navigation.navigate('Detail', {id: item.id})}
       />
     );
   };

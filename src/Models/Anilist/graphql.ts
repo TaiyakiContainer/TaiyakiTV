@@ -16,16 +16,22 @@ query {
 export const AnilistDetailGraphql = (id: number): string => `
 
 query {
-  Media(id: ${id}){
+  Media(id: ${id}, type: ANIME){
     bannerImage
     coverImage{extraLarge}
-    title{romaji}
+    title{romaji english}
     id
     episodes
     nextAiringEpisode {
       airingAt
       episode
     }
+    hashtag
+    episodes
+    countryOfOrigin
+    status
+    trending
+    averageScore
     popularity
     description
   }

@@ -14,10 +14,13 @@ import Burns from 'react-native-ken-burns';
 LogBox.ignoreLogs(['Setting a timer']);
 interface Props {
   image?: string;
+  staticMode?: boolean;
+  darkColor?: string;
+  lightColor?: string;
 }
 
 const _BackgroundCover: FC<Props> = (props) => {
-  const {image} = props;
+  const {image, staticMode, darkColor, lightColor} = props;
   const controller = useRef(new Animated.Value(0)).current;
 
   const oldImage = useRef<string | undefined>();
@@ -60,17 +63,25 @@ const _BackgroundCover: FC<Props> = (props) => {
               style={[styles.view, {opacity: fade}]}
             />
           </Burns>
-          <Burns
-            key={image.slice(18)}
-            duration={4 * 10000}
-            min={1}
-            style={[styles.absolute]}>
+          {staticMode ? (
             <Animated.Image
               source={{uri: image}}
               onLoad={_imageOnLoad}
               style={[styles.view, {opacity: controller}]}
             />
-          </Burns>
+          ) : (
+            <Burns
+              key={image.slice(18)}
+              duration={4 * 10000}
+              min={1}
+              style={[styles.absolute]}>
+              <Animated.Image
+                source={{uri: image}}
+                onLoad={_imageOnLoad}
+                style={[styles.view, {opacity: controller}]}
+              />
+            </Burns>
+          )}
         </View>
       ) : null}
       <View style={styles.absolute}>
@@ -78,14 +89,17 @@ const _BackgroundCover: FC<Props> = (props) => {
           style={styles.view}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
-          colors={['rgba(0,0,0,0.55)', 'rgba(0,0,0,0.06)']}
+          colors={[darkColor ?? 'rgba(0,0,0,0.55)', lightColor ?? 'rgba(0,0,0,0.06)']}
         />
       </View>
     </View>
   );
 };
 
-export const BackgroundCover = memo(_BackgroundCover, (pp: Props, np: Props) => pp.image === np.image);
+export const BackgroundCover = memo(
+  _BackgroundCover,
+  (pp: Props, np: Props) => pp.image === np.image,
+);
 
 const styles = StyleSheet.create({
   view: {
