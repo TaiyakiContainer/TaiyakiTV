@@ -3,11 +3,13 @@ import React, {FC, useEffect, useState} from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 import {BackgroundCover} from '../../Components/BackgroundCover';
-import { EpisodeBlocks } from '../../Components/Detailed/EpisodeBlocks';
-import { InfoBlock } from '../../Components/Detailed/InfoBlock';
+import {EpisodeBlocks} from '../../Components/Detailed/EpisodeBlocks';
+import {InfoBlock} from '../../Components/Detailed/InfoBlock';
 import {SideBar} from '../../Components/Detailed/SideBar';
 import {useAnilistRequest} from '../../Hooks/useAnilist';
+import {useSimklRequest} from '../../Hooks/useSimkl';
 import {AnilistDetailModel} from '../../Models/Anilist/models';
+import { SimklEpisodesModel } from '../../Models/SIMKL/model';
 import {DetailedInfoPage} from './InfoPage';
 
 interface Props {
@@ -17,7 +19,7 @@ interface Props {
 const DetailedScreen: FC<Props> = (props) => {
   const {id} = props.route.params;
   const navigation = useNavigation();
-  const [currentIndex, setIndex] = useState<number>(0);
+  const [malID, setMalID] = useState<number | undefined>();
   const {
     query: {data: detail},
   } = useAnilistRequest<AnilistDetailModel>('Detail', {id: id});
@@ -26,6 +28,19 @@ const DetailedScreen: FC<Props> = (props) => {
       navigation.setOptions({title: detail.data.Media.title.romaji});
     }
   }, [detail]);
+
+  const simklQuery = useSimklRequest<SimklEpisodesModel[]>('Episodes', {
+    idMal: malID,
+  });
+
+  useEffect(() => {
+    if (detail) setMalID(Number(detail.data.Media.idMal));
+  }, [detail]);
+ 
+  useEffect(() => {
+    if (simklQuery.query.data)
+    console.log('the sikmlData', simklQuery.query.data.map((i) => i.img));
+  }, [ simklQuery.query.data]);
 
   if (!detail) {
     return <View />;

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 import {DiscoveryDataType} from '../Models/basic';
+import { TaiyakiText } from './Base';
 
 interface Props {
   data: DiscoveryDataType;
@@ -38,13 +39,13 @@ const _ListBlock: FC<Props> = (props) => {
         ]}>
         <Image source={{uri: image}} style={styles.listBlock.image} />
         <View style={styles.listBlock.textView}>
-          <Text
+          <TaiyakiText
             style={[
               styles.listBlock.textTitle,
               {color: isFocused ? 'black' : 'white'},
             ]}>
             {title}
-          </Text>
+          </TaiyakiText>
         </View>
       </View>
     </TouchableHighlight>

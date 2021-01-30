@@ -21,6 +21,7 @@ query {
     coverImage{extraLarge}
     title{romaji english}
     id
+    idMal
     episodes
     nextAiringEpisode {
       airingAt

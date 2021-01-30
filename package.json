@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.3",
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/viewpager": "^4.2.2",
-    "@react-native-masked-view/masked-view": "^0.2.0",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "react": "16.13.1",
@@ -24,7 +24,6 @@
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.17.1",
     "react-native-size-matters": "^0.4.0",
-    "react-native-tabbed-view-pager-android": "^1.0.4",
     "react-query": "^3.6.0"
   },
   "devDependencies": {

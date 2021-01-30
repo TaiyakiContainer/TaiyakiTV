@@ -5761,11 +5761,6 @@ react-native-size-matters@^0.4.0:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.4.0.tgz#01bfd0d59454318f4e0b13fe9c1eb0523d70f2e0"
   integrity sha512-8/C0htHrFWeUm9N8JegmadovUfgTWkGBkDPZ1N3YkXtDWb+98Ya2gThiKcu445r8c7YhcrBfnHz/mYsXIusaOQ==
 
-react-native-tabbed-view-pager-android@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-tabbed-view-pager-android/-/react-native-tabbed-view-pager-android-1.0.4.tgz#d6f2a973f130b7acb4187b312601664c4d32d5ed"
-  integrity sha512-F0nKfsUH7cMEfs9E72OkAXvmNbYT5jZ69RttA22CgpxqnpaNv04f5SGE845loF3eB1eO6Zdf5Zg7eC5AmGXtLA==
-
 "react-native@npm:react-native-tvos@0.63.1-4":
   version "0.63.1-4"
   resolved "https://registry.yarnpkg.com/react-native-tvos/-/react-native-tvos-0.63.1-4.tgz#9c481ea26c867acf2215994ed4b99a8a0442e60a"

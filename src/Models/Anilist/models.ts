@@ -10,6 +10,7 @@ export type AnilistMediaModel = {
   coverImage: {extraLarge: string};
   title: {romaji: string; english?: string};
   id: number;
+  idMal: string;
   description?: string;
 
   popularity?: number;

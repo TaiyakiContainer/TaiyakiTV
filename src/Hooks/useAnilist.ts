@@ -1,3 +1,4 @@
+import {LayoutAnimation} from 'react-native';
 import {useQuery} from 'react-query';
 import {
   AnilistDetailGraphql,
@@ -41,6 +42,8 @@ export function useAnilistRequest<T>(key: AnilistKeys, options?: Options) {
     fetcher,
     {
       staleTime: Infinity,
+      onSettled: () =>
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut),
     },
   );
 

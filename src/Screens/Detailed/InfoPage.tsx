@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, Button} from 'react-native';
 import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
@@ -9,7 +10,7 @@ interface Props {
 
 export const DetailedInfoPage: FC<Props> = (props) => {
   const {coverImage, title, description} = props.detail;
-
+  const navigation = useNavigation();
   return (
     <View style={styles.view}>
       <View style={{flexDirection: 'row', marginBottom: moderateScale(12)}}>
@@ -40,9 +41,12 @@ export const DetailedInfoPage: FC<Props> = (props) => {
             ) : null}
           </View>
           <View style={{width: '30%'}}>
-          <Button onPress={() => {
-
-}} title={'Watch Now'} />
+            <Button
+              onPress={() => {
+                navigation.navigate('Episodes');
+              }}
+              title={'Watch Now'}
+            />
           </View>
         </View>
       </View>
@@ -69,7 +73,8 @@ const styles = StyleSheet.create({
   description: {
     color: 'white',
     flexShrink: 0.9,
-    fontWeight: '600',
+    fontWeight: '700',
+    fontSize: moderateScale(14),
   },
   englishTitle: {
     fontWeight: '700',
