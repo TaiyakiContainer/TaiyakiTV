@@ -40,6 +40,7 @@ const _ListBlock: FC<Props> = (props) => {
         <Image source={{uri: image}} style={styles.listBlock.image} />
         <View style={styles.listBlock.textView}>
           <TaiyakiText
+          fontWeight={'Bold'}
             style={[
               styles.listBlock.textTitle,
               {color: isFocused ? 'black' : 'white'},
@@ -75,7 +76,6 @@ const styles = {
     textTitle: {
       color: 'white',
       fontSize: moderateScale(18, 0.2),
-      fontWeight: '700',
     },
   }),
 };

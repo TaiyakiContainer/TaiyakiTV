@@ -3,14 +3,17 @@ import React, {FC} from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, Button} from 'react-native';
 import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 import {AnilistMediaModel} from '../../Models/Anilist/models';
+import { SimklEpisodesModel } from '../../Models/SIMKL/model';
 
 interface Props {
   detail: AnilistMediaModel;
+  episodeDetail: SimklEpisodesModel[];
 }
 
 export const DetailedInfoPage: FC<Props> = (props) => {
   const {coverImage, title, description} = props.detail;
   const navigation = useNavigation();
+
   return (
     <View style={styles.view}>
       <View style={{flexDirection: 'row', marginBottom: moderateScale(12)}}>
@@ -42,8 +45,10 @@ export const DetailedInfoPage: FC<Props> = (props) => {
           </View>
           <View style={{width: '30%'}}>
             <Button
+              disabled={props.episodeDetail.length === 0}
+              color={props.episodeDetail.length === 0 ? 'red' : 'blue'}
               onPress={() => {
-                navigation.navigate('Episodes');
+                navigation.navigate('Episodes', {data: props.episodeDetail});
               }}
               title={'Watch Now'}
             />

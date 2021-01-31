@@ -9,7 +9,7 @@ import {SideBar} from '../../Components/Detailed/SideBar';
 import {useAnilistRequest} from '../../Hooks/useAnilist';
 import {useSimklRequest} from '../../Hooks/useSimkl';
 import {AnilistDetailModel} from '../../Models/Anilist/models';
-import { SimklEpisodesModel } from '../../Models/SIMKL/model';
+import {SimklEpisodesModel} from '../../Models/SIMKL/model';
 import {DetailedInfoPage} from './InfoPage';
 
 interface Props {
@@ -36,11 +36,6 @@ const DetailedScreen: FC<Props> = (props) => {
   useEffect(() => {
     if (detail) setMalID(Number(detail.data.Media.idMal));
   }, [detail]);
- 
-  useEffect(() => {
-    if (simklQuery.query.data)
-    console.log('the sikmlData', simklQuery.query.data.map((i) => i.img));
-  }, [ simklQuery.query.data]);
 
   if (!detail) {
     return <View />;
@@ -68,7 +63,10 @@ const DetailedScreen: FC<Props> = (props) => {
             padding: moderateScale(12),
             width: Dimensions.get('window').width * 0.84,
           }}>
-          <DetailedInfoPage detail={detail.data.Media} />
+          <DetailedInfoPage
+            detail={detail.data.Media}
+            episodeDetail={simklQuery.query.data ?? []}
+          />
           <InfoBlock data={detail.data.Media} />
         </ScrollView>
       </View>

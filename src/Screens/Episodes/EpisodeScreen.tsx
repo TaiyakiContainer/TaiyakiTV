@@ -1,38 +1,158 @@
-import React from 'react';
-import {StyleSheet, Button, View} from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+/* eslint-disable react-native/no-inline-styles */
+import React, {createRef, FC, useEffect, useRef, useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  ScrollView,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
+import Icon from 'react-native-dynamic-vector-icons';
+import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 import {BackgroundCover} from '../../Components/BackgroundCover';
 import {TaiyakiText} from '../../Components/Base';
+import {SimklEpisodesModel} from '../../Models/SIMKL/model';
 
-export const EpisodesScreen = () => {
+interface Props {
+  route: {params: {data: SimklEpisodesModel[]}};
+}
+
+interface EpisodeItemProps {
+  episode: SimklEpisodesModel;
+}
+
+export const EpisodesScreen: FC<Props> = (props) => {
+  const {data} = props.route.params;
+  const scrollViewController = createRef<ScrollView>();
+
+  const [page, setPage] = useState<number>(0);
+  const [prePage, setNewPage] = useState<number>(0);
+
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const newIndex = Number(
+      event.nativeEvent.contentOffset.x / Dimensions.get('window').width,
+    );
+    setPage(newIndex);
+  };
+
+  useEffect(() => {
+    scrollViewController.current?.scrollTo({
+      x: prePage * Dimensions.get('window').width,
+      animated: true,
+    });
+  }, [prePage]);
+
+  return (
+    <>
+      <ScrollView
+        ref={scrollViewController}
+        style={{
+          height: Dimensions.get('window').height,
+          width: Dimensions.get('window').width,
+        }}
+        horizontal
+        scrollEventThrottle={5}
+        onScroll={onScroll}
+        pagingEnabled>
+        {data.map((i) => (
+          <EpisodeItems episode={i} />
+        ))}
+        {/* <FlatList
+        style={{flex: 1, backgroundColor: 'pink'}}
+        data={data}
+        renderItem={_renderItem}
+        keyExtractor={(item) => item.ids.simkl_id.toString()}
+      /> */}
+      </ScrollView>
+      <View style={styles.absoluteNative}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: moderateScale(12),
+            width: Dimensions.get('window').width,
+          }}>
+          {page !== 0 ? (
+            <Icon
+              name={'chevron-left'}
+              type={'MaterialCommunityIcons'}
+              color={'white'}
+              size={moderateScale(75)}
+              onPress={() => {
+                // setIndex((i) => i - 1);
+                const newIndex = page - 1;
+                if (newIndex < 0) return;
+                scrollViewController.current?.scrollTo({
+                  x: newIndex * Dimensions.get('window').width,
+                  animated: true,
+                });
+              }}
+            />
+          ) : (
+            <View />
+          )}
+          {page < data.length ? (
+            <Icon
+              name={'chevron-right'}
+              type={'MaterialCommunityIcons'}
+              color={'white'}
+              size={moderateScale(75)}
+              onPress={() => {
+                // setIndex((i) => i + 1);
+                const newIndex = prePage + 1;
+                if (newIndex >= data.length) return;
+                // scrollViewController.current?.scrollTo({
+                //   x: newIndex * Dimensions.get('window').width,
+                //   animated: true,
+                // });
+                setNewPage(newIndex);
+              }}
+            />
+          ) : (
+            <View />
+          )}
+        </View>
+      </View>
+    </>
+  );
+};
+
+const EpisodeItems: FC<EpisodeItemProps> = (props) => {
+  const {episode} = props;
   return (
     <View style={styles.view}>
       <BackgroundCover
-        image={'https://simkl.net/episodes/10/1087128073dd584c30_w.jpg'}
+        image={episode.img}
         staticMode
         darkColor={'rgba(0,0,0,0.8)'}
       />
       <View style={styles.absolute}>
         <View>
-          <TaiyakiText style={styles.episodeNum}>Episode 3</TaiyakiText>
+          <TaiyakiText fontWeight={'Medium'} style={styles.episodeNum}>
+            Episode {episode.episode}
+          </TaiyakiText>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <TaiyakiText style={styles.episodeTitle}>A Bare Knife</TaiyakiText>
-            <View style={{alignItems: 'flex-end'}}>
-              <Button color={'red'} title={'Cancel'} onPress={() => {}} />
-              <View style={{height: 10}} />
-              <Button color={'orange'} title={'Episode 4'} onPress={() => {}} />
-            </View>
+            <TaiyakiText fontWeight={'Black'} style={styles.episodeTitle}>
+              {episode.title}
+            </TaiyakiText>
           </View>
         </View>
         <View>
-          <TaiyakiText style={styles.description}>
-            A pair of mysterious voices lead 14-year-old Ai Ohto to a strange
-            egg, promising her a chance at what she wants most. What`s inside
-            the egg? And what does Ai really want?
-          </TaiyakiText>
+          <ScrollView style={{maxHeight: moderateVerticalScale(150)}}>
+            <TaiyakiText style={styles.description}>
+              {episode.description ?? 'This episode has no description'}
+            </TaiyakiText>
+          </ScrollView>
           <View style={{flexDirection: 'row'}}>
-            <TaiyakiText style={styles.source}>Vidstreaming</TaiyakiText>
-            <TaiyakiText style={{marginHorizontal: moderateScale(15)}}>
+            <TaiyakiText fontWeight={'Bold'} style={styles.source}>
+              Vidstreaming
+            </TaiyakiText>
+            <TaiyakiText
+              fontWeight={'Medium'}
+              style={{marginHorizontal: moderateScale(15)}}>
               •
             </TaiyakiText>
             <TaiyakiText>~ 25 mins</TaiyakiText>
@@ -45,7 +165,8 @@ export const EpisodesScreen = () => {
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
   },
   absolute: {
     position: 'absolute',
@@ -56,12 +177,17 @@ const styles = StyleSheet.create({
     padding: moderateScale(12.75),
     justifyContent: 'space-between',
   },
+  absoluteNative: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   episodeNum: {
-    fontWeight: '700',
     fontSize: moderateScale(17, 0.2),
   },
   episodeTitle: {
-    fontWeight: 'bold',
     fontSize: moderateScale(25, 0.22),
   },
   description: {
@@ -73,6 +199,5 @@ const styles = StyleSheet.create({
   },
   source: {
     color: '#ca9249',
-    fontWeight: 'bold',
   },
 });

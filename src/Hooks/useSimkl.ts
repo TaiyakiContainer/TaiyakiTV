@@ -81,12 +81,16 @@ export function useSimklRequest<T>(key: SimklKeys, options?: Options) {
     );
   };
 
-  const query = useQuery<T>(key, fetcher, {
-    onSettled: () =>
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut),
-    onSuccess: transformResponse,
-    enabled: options && options!.idMal !== undefined,
-  });
+  const query = useQuery<T>(
+    key + options?.idMal ?? options?.id ?? simklID,
+    fetcher,
+    {
+      onSettled: () =>
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut),
+      onSuccess: transformResponse,
+      enabled: options && options!.idMal !== undefined,
+    },
+  );
 
   return {query, controller, simklID};
 }
